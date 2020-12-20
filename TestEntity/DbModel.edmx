@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище LessonModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BansUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdRole" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BansUsers_DataUsers">
+          <End Role="DataUsers" Type="Self.DataUsers" Multiplicity="1" />
+          <End Role="BansUsers" Type="Self.BansUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BansUsers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataUsers_DataRoles">
+          <End Role="DataRoles" Type="Self.DataRoles" Multiplicity="1" />
+          <End Role="DataUsers" Type="Self.DataUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DataUsers">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище LessonModelContainer">
+          <EntitySet Name="BansUsers" EntityType="Self.BansUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataRoles" EntityType="Self.DataRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataUsers" EntityType="Self.DataUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BansUsers_DataUsers" Association="Self.FK_BansUsers_DataUsers">
+            <End Role="DataUsers" EntitySet="DataUsers" />
+            <End Role="BansUsers" EntitySet="BansUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataUsers_DataRoles" Association="Self.FK_DataUsers_DataRoles">
+            <End Role="DataRoles" EntitySet="DataRoles" />
+            <End Role="DataUsers" EntitySet="DataUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LessonModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BansUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DataUsers" Relationship="Self.FK_BansUsers_DataUsers" FromRole="BansUsers" ToRole="DataUsers" />
+        </EntityType>
+        <EntityType Name="DataUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" Unicode="true" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="BansUsers" Relationship="Self.FK_BansUsers_DataUsers" FromRole="DataUsers" ToRole="BansUsers" />
+          <Property Name="IdRole" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DataRoles" Relationship="LessonModel.FK_DataUsers_DataRoles" FromRole="DataUsers" ToRole="DataRoles" />
+        </EntityType>
+        <Association Name="FK_BansUsers_DataUsers">
+          <End Role="DataUsers" Type="Self.DataUsers" Multiplicity="1" />
+          <End Role="BansUsers" Type="Self.BansUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BansUsers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LessonContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BansUsers" EntityType="Self.BansUsers" />
+          <EntitySet Name="DataUsers" EntityType="Self.DataUsers" />
+          <AssociationSet Name="FK_BansUsers_DataUsers" Association="Self.FK_BansUsers_DataUsers">
+            <End Role="DataUsers" EntitySet="DataUsers" />
+            <End Role="BansUsers" EntitySet="BansUsers" />
+          </AssociationSet>
+          <EntitySet Name="DataRoles" EntityType="LessonModel.DataRoles" />
+          <AssociationSet Name="FK_DataUsers_DataRoles" Association="LessonModel.FK_DataUsers_DataRoles">
+            <End Role="DataRoles" EntitySet="DataRoles" />
+            <End Role="DataUsers" EntitySet="DataUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DataRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DataUsers" Relationship="LessonModel.FK_DataUsers_DataRoles" FromRole="DataRoles" ToRole="DataUsers" />
+        </EntityType>
+        <Association Name="FK_DataUsers_DataRoles">
+          <End Type="LessonModel.DataRoles" Role="DataRoles" Multiplicity="1" />
+          <End Type="LessonModel.DataUsers" Role="DataUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DataUsers">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище LessonModelContainer" CdmEntityContainer="LessonContext">
+          <EntitySetMapping Name="BansUsers">
+            <EntityTypeMapping TypeName="LessonModel.BansUsers">
+              <MappingFragment StoreEntitySet="BansUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataUsers">
+            <EntityTypeMapping TypeName="LessonModel.DataUsers">
+              <MappingFragment StoreEntitySet="DataUsers">
+                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataRoles">
+            <EntityTypeMapping TypeName="LessonModel.DataRoles">
+              <MappingFragment StoreEntitySet="DataRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
